@@ -19,7 +19,9 @@ public class LostDog {
         int dirPerson = 0;
         int dirDog = 0;
 
-        while((person[0] != dog[0] || person[1] != dog[1]) && answer <= 10000){
+        while((person[0] != dog[0] || person[1] != dog[1])){
+            if(answer > 10000) return 0;
+
             int personX = person[0] + deltas[dirPerson][0];
             int personY = person[1] + deltas[dirPerson][1];
             int dogX = dog[0] + deltas[dirDog][0];
@@ -40,7 +42,7 @@ public class LostDog {
             answer++;
         }
 
-        return answer <= 10000 ? answer : 0;
+        return answer;
     }
 
     boolean inRange(int x, int y, int n){
