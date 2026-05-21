@@ -29,6 +29,5 @@ bin/
 ### Mac OS ###
 .DS_Store
 
-# IntelliJ / PyCharm / WebStorm
-.idea/
-*.iml
+.idea/workspace.xml
+.idea/misc.xml
