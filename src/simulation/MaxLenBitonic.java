@@ -6,29 +6,25 @@ public class MaxLenBitonic {
     public int solution(int[] nums){
         int answer = 0;
 
-        List<Integer> turningPoint = new ArrayList<>();
+        int n = nums.length;
 
-        for(int i = 1; i < nums.length - 1; i++){
-            if(nums[i] > nums[i - 1] && nums[i] > nums[i + 1]){
-                turningPoint.add(i);
-            }
+        int[] left = new int[n];
+        int[] right = new int[n];
+
+        for(int i = 1; i < n; i++){
+            if(nums[i] > nums[i - 1]) left[i] = left[i - 1] + 1;
         }
 
-        for(int t: turningPoint){
-            answer = Math.max(answer, getLength(t, nums));
+        for(int i = n - 2; i >= 0; i--){
+            if(nums[i] > nums[i + 1]) right[i] = right[i + 1] + 1;
+        }
+
+        for(int i = 0; i < n; i++){
+            if(left[i] > 0 && right[i] > 0) answer = Math.max(answer, left[i] + right[i] + 1);
         }
 
         return answer;
-    }
 
-    int getLength(int mid, int[] nums){
-        int start = mid;
-        int end = mid;
-
-        while(start > 0 && nums[start - 1] < nums[start]) start--;
-        while(end < nums.length - 1 && nums[end + 1] < nums[end]) end++;
-
-        return end - start + 1;
     }
 
     public static void main(String[] args){
