@@ -1,22 +1,23 @@
 package timeParsing;
 
+import java.util.*;
+
 public class SubsequenceContainsNegative {
     public int solution(int[] nums, int m){
         int answer = 0;
 
-        int[] sum = new int[nums.length];
-        sum[0] = nums[0];
+        Map<Integer, Integer> cntSum = new HashMap<>();
 
-        for(int i = 1; i < nums.length; i++){
-            sum[i] = sum[i - 1] + nums[i];
-        }
+        int sum = 0;
 
-        for(int i = 0; i < sum.length; i++){
-            if(sum[i] == m) answer++;
+        for(int num: nums){
+            sum += num;
 
-            for(int j = 0; j < i; j++){
-                if(sum[i] - sum[j] == m) answer++;
-            }
+            if(sum == m) answer++;
+
+            answer += cntSum.getOrDefault(sum - m, 0);
+
+            cntSum.put(sum, cntSum.getOrDefault(sum, 0) + 1);
         }
 
         return answer;
