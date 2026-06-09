@@ -7,13 +7,12 @@ public class SubsequenceContainsNegative {
         int answer = 0;
 
         Map<Integer, Integer> cntSum = new HashMap<>();
+        cntSum.put(0, 1);
 
         int sum = 0;
 
         for(int num: nums){
             sum += num;
-
-            if(sum == m) answer++;
 
             answer += cntSum.getOrDefault(sum - m, 0);
 
