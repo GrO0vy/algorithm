@@ -8,20 +8,20 @@ public class MakeDifferentFreq {
     public int solution(String s){
         int answer = 0;
 
-        Map<Character, Integer> cnt = new HashMap<>();
+        int[] cnt = new int[CNT_CHAR];
         Set<Integer> used = new HashSet<>();
 
         for(int i = 0; i < s.length(); i++){
-            cnt.put(s.charAt(i), cnt.getOrDefault(s.charAt(i), 0) + 1);
+            cnt[s.charAt(i) - 'a']++;
         }
 
-        for(char key: cnt.keySet()){
-            while(cnt.get(key) > 0 && used.contains(cnt.get(key))){
+        for(int c: cnt){
+            while(c > 0 && used.contains(c)) {
+                c--;
                 answer++;
-                cnt.put(key, cnt.get(key) - 1);
             }
 
-            if(cnt.get(key) > 0) used.add(cnt.get(key));
+            if(c > 0) used.add(c);
         }
 
         return answer;
