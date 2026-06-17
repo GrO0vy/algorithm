@@ -9,26 +9,29 @@ public class LongestConsecutiveSequence {
         Set<Integer> set = new HashSet<>();
         for(int num: nums) set.add(num);
 
-        for(int num: set){
-            if(set.contains(num - 1)) continue;
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        for(int num: set) pq.offer(num);
 
-            int len = 1;
-            while(set.contains(num + 1)){
-                len++;
-                num++;
+        while(!pq.isEmpty()){
+            int length = 1;
+            int prev = pq.poll();
+
+            while(!pq.isEmpty() && pq.peek() == prev + 1){
+                prev = pq.poll();
+                length++;
             }
 
-            answer = Math.max(answer, len);
+            answer = Math.max(answer, length);
         }
-
         return answer;
     }
-
-    // 1. set 에 nums 의 원소를 저장한다 ( 중복제거 )
-    // 2. set 의 원소를 순회하면서 만약 원소 - 1 의 값이 set에 존재한다면 continue ( 시작점이 아닌 부분은 거른다 )
-    // 3. 시작점이라면 +1 을 해나가면서 연속된 원소의 개수를 센다.
-    // 4. 최대 길이와 연속된 원소의 개수를 비교한다.
-    // 5. 최대 길이를 반환한다.
+    
+    // 1. set 으로 nums 의 중복제거
+    // 2. 우선순위큐에 set 의 모든 원소 삽입 (정렬)
+    // 3. pq 의 원소를 뽑고 다음 원소가 현재 원소 + 1 이면 다음 원소를 뽑아 현재 원소로 갱신하는 과정 반복
+    // 4. 연속된 수의 길이를 구한다.
+    // 5. pq 가 빌 때까지 3~4 과정 반복
+    // 6. 최대 길이를 반환
 
     public static void main(String[] args){
         LongestConsecutiveSequence T = new LongestConsecutiveSequence();
