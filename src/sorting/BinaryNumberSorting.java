@@ -25,9 +25,14 @@ public class BinaryNumberSorting {
     }
 
     private int getCntOne(int num){
-        String binary = Integer.toBinaryString(num);
+        int cnt = 0;
 
-        return binary.replace("0", "").length();
+        while(num > 0){
+            cnt += num % 2;
+            num /= 2;
+        }
+
+        return cnt;
     }
 
     public static void main(String[] args){
