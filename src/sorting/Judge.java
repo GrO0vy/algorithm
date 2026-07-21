@@ -14,13 +14,13 @@ public class Judge {
             sum += score[i];
         }
 
-        if(score[k - 1] - score[0] <= 10) answer = Math.min(answer, sum / k);
+        if(score[k - 1] - score[0] <= 10) return sum / k;
 
         for(int i = k; i < score.length; i++){
             sum -= score[i - k];
             sum += score[i];
 
-            if(score[i] - score[i - k + 1] <= 10) answer = Math.min(answer, sum / k);
+            if(score[i] - score[i - k + 1] <= 10) return sum / k;
         }
 
         return answer;
