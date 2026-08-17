@@ -6,21 +6,17 @@ public class MinimumRooms {
     public int solution(int[][] meetings){
         int answer = 0;
 
-        PriorityQueue<int[]> inProgress = new PriorityQueue<>((o1, o2) -> o1[1] - o2[1]);
+        Arrays.sort(meetings, (o1, o2) -> o1[0] - o2[0]);
 
-        PriorityQueue<int[]> waiting = new PriorityQueue<>((o1, o2) -> o1[0] - o2[0]);
-        for(int[] meeting: meetings) waiting.offer(meeting);
-
-        Arrays.sort(meetings, (o1, o2) -> o1[1] - o2[1]);
+        PriorityQueue<Integer> inProgress = new PriorityQueue<>();
 
         for(int[] meeting: meetings){
-            while(!inProgress.isEmpty() && inProgress.peek()[1] <= meeting[0]){
-                inProgress.poll();
-            }
+            int start = meeting[0];
+            int end = meeting[1];
 
-            while(!waiting.isEmpty() && waiting.peek()[0] <= meeting[0]){
-                inProgress.offer(waiting.poll());
-            }
+            while(!inProgress.isEmpty() && inProgress.peek() <= start) inProgress.poll();
+
+            inProgress.offer(end);
 
             answer = Math.max(answer, inProgress.size());
         }
@@ -36,10 +32,10 @@ public class MinimumRooms {
         System.out.println(T.solution(new int[][]{{0, 5}, {2, 7}, {4, 5}, {7, 10}, {9, 12}}));
     }
 
-    // 1. 회의 시간을 시작 시간 순 정렬, 끝나는 시간 순 정렬한다.
-    // 2. 현재 진행 중인 회의를 저장 할 큐를 만든다. ( 종료 시간 순 우선순위 큐 )
-    // 3. 제일 먼저 끝나는 회의를 선택한다.
-    // 4. 선택한 회의의 시작 시간보다 일찍 종료되는 회의를 진행 큐에서 제거한다.
-    // 5. 대기 큐의 회의 중 선택한 회의보다 일찍 또는 동시에 시작하는 회의를 모두 진행 큐에 넣는다.
-    // 6. 큐의 사이즈와 정답과 비교해서 동시에 진행되는 회의의 최댓값을 구한다.
+    // 1. 회의 시간을 시작 시간 순 정렬
+    // 2. 현재 진행 중인 회의의 종료 시간을 저장 할 우선 순위 큐를 만든다.
+    // 3. 시작 시간 순으로 회의를 순회하면서 아래의 과정을 반복
+    // 3-1. 진행 중인 회의 중 선택된 회의 시작시간 전에 종료되는 회의를 모두 제거한다.
+    // 3-2. 선택된 회의를 진행 중인 회의 큐에 넣는다.
+    // 3-3. 진행 중 큐 크기의 최대 크기를 구한다.
 }
