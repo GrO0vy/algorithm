@@ -1,42 +1,44 @@
-package greedy;
+    package greedy;
 
-import java.util.*;
+    import java.util.*;
 
-public class cntMove {
-    public int solution(int[] nums){
-        int answer = 0;
+    public class cntMove {
+        public int solution(int[] nums){
+            int answer = 0;
 
-        Arrays.sort(nums);
+            int two = 0;
+            int three = 0;
 
-        int left = 0;
-        int right = nums.length - 1;
-
-        while(left <= right){
-            int sum = nums[right];
-
-            while(left < right && sum + nums[left] <= 5){
-                sum += nums[left];
-                left++;
+            for(int num: nums){
+                if(num == 2) two++;
+                else if(num == 3) three++;
+                else answer++;
             }
 
-            right--;
-            answer++;
+            int pair = Math.min(two, three);
+            two -= pair;
+            three -= pair;
+
+            answer += pair;
+
+            answer += (two + 1) / 2; // 아래 두 줄의 압축버전
+            // answer += two / 2;
+            // answer += two % 2;
+
+            answer += three;
+
+            return answer;
         }
 
-        return answer;
+        public static void main(String[] args){
+            cntMove T = new cntMove();
+            System.out.println(T.solution(new int[]{2, 5, 3, 4, 2, 3}));
+            System.out.println(T.solution(new int[]{2, 3, 4, 5}));
+            System.out.println(T.solution(new int[]{3, 3, 3, 3, 3}));
+        }
     }
 
-    public static void main(String[] args){
-        cntMove T = new cntMove();
-        System.out.println(T.solution(new int[]{2, 5, 3, 4, 2, 3}));
-        System.out.println(T.solution(new int[]{2, 3, 4, 5}));
-        System.out.println(T.solution(new int[]{3, 3, 3, 3, 3}));
-    }
-}
-
-// 1. 배열을 정렬한다.
-// 2. 가장 큰 무게를 선택한다.
-// 3. 가장 작은 무게부터 누적 합을 한 결과가 5이하 일 때까지 작은 무게를 더한다.
-// 4. 누적 합이 5를 초과하면 이동 횟수를 1증가 시킨다.
-// 5. 최종적으로 모든 물건을 다 이동시키고 난 후 이동 횟수를 리턴한다.
-
+    // nums 내의 짐의 무게가 2kg ~ 5kg 으로만 구성된 점을 이용
+    // 1. 2 와 3의 개수를 센다.
+    // 2. 4 와 5는 바로 이동 횟수를 카운트 한다. ( 4, 5 는 한 번에 하난만 이동 가능하기 때문 )
+    // 3. 2 ~ 3 의 짝 구하고, 나머지에서 2로 나는 몫, 2로 나눈 나머지를 더한다.
