@@ -20,47 +20,24 @@ public class IpAddress {
     }
 
     void dfs(String str, int idx, int depth){
-        if(depth == 4 || idx == str.length()){
-            if(depth == 4 && idx == str.length()){
-                String address = "";
-
-                for(String num: numbers) address += num + " ";
-
-                result.add(address.trim().replaceAll("\\s+", "\\."));
-            }
+        if(depth == 4){
+            if(idx == str.length()) result.add(String.join(".", numbers));
 
             return;
         }
 
-        numbers.add(str.substring(idx, idx + 1));
-        dfs(str, idx + 1, depth + 1);
-        numbers.removeLast();
+        for(int i = 1; i <= 3; i++){
+            if(idx + i > str.length()) return;
 
-        if (idx + 1 < str.length()) {
-            String slice = str.substring(idx, idx + 2);
+            String num = str.substring(idx, idx + i);
 
-            if(isPossible(slice)){
-                numbers.add(slice);
-                dfs(str, idx + 2, depth + 1);
-                numbers.removeLast();
-            }
+            if(i > 1 && num.startsWith("0")) return;
+            if(Integer.parseInt(num) > 255) return;
+
+            numbers.add(num);
+            dfs(str, idx + i, depth + 1);
+            numbers.removeLast();
         }
-
-        if (idx + 2 < str.length()) {
-            String slice = str.substring(idx, idx + 3);
-
-            if(isPossible(slice)){
-                numbers.add(str.substring(idx, idx + 3));
-                dfs(str, idx + 3, depth + 1);
-                numbers.removeLast();
-            }
-        }
-    }
-
-    boolean isPossible(String num){
-        int intNum = Integer.parseInt(num);
-
-        return !num.startsWith("0") && 0 <= intNum && intNum <= 255;
     }
 
     public static void main(String[] args){
